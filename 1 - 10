@@ -43,3 +43,46 @@ def largestPrimeFactor(n):
             return largestPrimeFactor(max(i,n/i))
     return n
 print(largestPrimeFactor(600851475143))
+
+
+#Largest palindrome product
+#Problem 4
+#A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
+
+#Find the largest palindrome made from the product of two 3-digit numbers.
+
+#Find palindrome string
+def palindrome_str(num):
+    return str(num) == str(num)[::-1]
+
+def palindrome_num(num):
+    reverse = 0
+    org = num
+    if num < 10:
+        return True
+    if num % 10 == 0:
+        return False
+    while num >= 1:
+        reverse = (reverse * 10) + (num % 10)
+        num = int(num / 10)
+    if reverse == org:
+        return True
+    else: return False
+
+def largestPalidrome(n):
+    upperBound = 10**n-1
+    lowerBound = 10**(n-1)-1
+    a = upperBound
+    maxPali = 0
+    while a > lowerBound:
+        #print(a)
+        b = upperBound
+        while b >= a:
+            prod = a * b
+            if prod > maxPali and palindrome_str(prod):
+            #if prod > maxPali and str(prod) == str(prod)[::-1]:
+                maxPali = a* b
+            b -= 1
+        a -= 1
+    return maxPali
+print(largestPalidrome(3))
