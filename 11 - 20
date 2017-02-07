@@ -60,3 +60,25 @@ def __collatz(nmax):
     return thenum, maxlength
 sti = time.time()
 print('final: ', __collatz(1e6), time.time()-sti)
+
+
+# Lattice paths
+# Problem 15
+# Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down, 
+# there are exactly 6 routes to the bottom right corner.
+# 
+# How many such routes are there through a 20×20 grid?
+
+def lattic_paths(rows, cols, mem = None):
+    if mem is None:
+        mem = [[-1 for i in range(rows+1)] for j in range(cols+1)]
+        return lattic_paths(rows, cols, mem)
+    else:
+        if rows == 0 or cols == 0:
+            return 1
+
+        if mem[rows][cols] == -1:
+            mem[rows][cols] = lattic_paths(rows-1,cols,mem) + lattic_paths(rows,cols-1,mem)
+        return mem[rows][cols]
+print(lattic_paths(20,20))
+
