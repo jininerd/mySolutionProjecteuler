@@ -1,1 +1,62 @@
+# Longest Collatz sequence
+# Problem 14
+# Published on Friday, 5th April 2002, 06:00 pm; Solved by 161983; Difficulty rating: 5%
+# The following iterative sequence is defined for the set of positive integers:
+# 
+# n → n/2 (n is even)
+# n → 3n + 1 (n is odd)
+# 
+# Using the rule above and starting with 13, we generate the following sequence:
+# 
+# 13 → 40 → 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1
+# It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms. Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1.
+# 
+# Which starting number, under one million, produces the longest chain?
+# 
+# NOTE: Once the chain starts the terms are allowed to go above one million.
 
+import time
+def __collatz(nmax):
+    thenum, maxlength = 0, 0
+    diclength = {1:1}
+    for i in range(1, int(nmax)):
+        n = i
+        #print('nth loop: ', n)
+        numseq = []
+        while n > 1:
+            #print('while: ', n, diclength)
+            if int(n) not in diclength:
+                #print('if')
+                numseq.append(n)
+                if n % 2 == 0:
+                    n /= 2
+                else:
+                    n = 3*n+1
+            elif numseq:
+                #print('else', int(n), numseq, diclength[1])
+                tmp = int(n)
+                while numseq:
+                    tmp_1 = tmp
+                    tmp = int(numseq.pop())
+                    diclength[tmp] = diclength[int(tmp_1)]+1
+                    if diclength[tmp] > maxlength:
+                        maxlength = diclength[tmp]
+                        thenum = tmp
+                    #print('3', numseq,tmp, diclength[int(tmp)])
+            else:
+                n = 1
+        #print('1', numseq, diclength)
+        tmp = int(n)
+        while numseq:
+            tmp_1 = tmp
+            tmp = numseq.pop()
+            n = tmp
+            diclength[int(tmp)] = diclength[int(tmp_1)]+1
+            if diclength[int(tmp)] > maxlength:
+                maxlength = diclength[int(tmp)]
+                thenum = tmp
+        #print('2', numseq, diclength, n)
+    #print(diclength)
+    return thenum, maxlength
+sti = time.time()
+print('final: ', __collatz(1e6), time.time()-sti)
