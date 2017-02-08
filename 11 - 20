@@ -496,3 +496,24 @@ def lattic_paths(rows, cols, mem = None):
         return mem[rows][cols]
 print(lattic_paths(20,20))
 
+
+# Power digit sum
+# Problem 16
+# Published on Friday, 3rd May 2002, 06:00 pm; Solved by 165033; Difficulty rating: 5%
+# 2 ^ 15 = 32768 and the sum of its digits is 3 + 2 + 7 + 6 + 8 = 26.
+#
+# What is the sum of the digits of the number 2 ^ 1000?
+def powersum(num, pow):
+    numvec = [1]
+    for i in range(pow):
+        numvec = [num * el for el in numvec]
+        counter = 0
+        for j in range(len(numvec)):
+            numvec[j] += counter
+            counter = int(numvec[j]/10)
+            numvec[j] = numvec[j]%10
+        if counter != 0:
+            numvec.append(counter)
+    return sum(numvec)
+sti = time.time()
+print(powersum(2, 1000), time.time()-sti)
